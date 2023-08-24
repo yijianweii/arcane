@@ -6,7 +6,7 @@ function App() {
     <>
       <div className={`${theme}`}>
         <div  className="dark:bg-gray-800 bg-gray-100">
-          <div>这是内容1</div>
+          <div>这是内容1222</div>
           <div className="flex justify-between w-[70px] border-2 border-dotted rounded-full py-1 px-2">
             <svg
               className="cursor-pointer"
