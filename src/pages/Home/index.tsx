@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import CreativeClock from '@/components/CreativeClock/index'
 import SideMenuOverlay from '@/components/SideMenuOverlay/index'
+import ThemeSwitch from '@/components/ThemeSwitch/index'
 import './index.css'
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
             <path d="M4 6h16M4 12h10M4 18h16" />
           </svg>
         </button>
+        <div className="corner-right"><ThemeSwitch /></div>
         <div className={`desktop-inner ${open ? 'open' : 'closed'}`}>
           <SideMenuOverlay open={open} onClose={() => setOpen(false)} />
           <main className="main">

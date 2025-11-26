@@ -52,7 +52,14 @@ export default function CreativeClock() {
   const display = `${hh}:${mm}:${ss}`
   return (
     <div className="clock">
-      <div className="time"><Digits value={display} /></div>
+      <div className="time time-h"><Digits value={display} /></div>
+      <div className="time time-v">
+        <div className="row"><Digits value={hh} /></div>
+        <div className="colon-row">:</div>
+        <div className="row"><Digits value={mm} /></div>
+        <div className="colon-row">:</div>
+        <div className="row"><Digits value={ss} /></div>
+      </div>
     </div>
   )
 }

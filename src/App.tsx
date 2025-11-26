@@ -1,6 +1,5 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import { ThemeProvider } from './theme'
-import ThemeSwitch from './components/ThemeSwitch/index'
 import Home from './pages/Home'
 import DemoLayout from './pages/DemoLayout'
 import ThemeShowcase from './demos/ThemeShowcase'
@@ -11,7 +10,6 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="app-shell">
-        <div className="global-switch"><ThemeSwitch /></div>
         <main className="container">
           <Routes>
             <Route path="/" element={<Home />} />

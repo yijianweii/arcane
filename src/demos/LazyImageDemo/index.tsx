@@ -33,7 +33,6 @@ export default function LazyImageDemo() {
   ]
   return (
     <div className="demo">
-      <h2 style={{ margin: 0 }}>图片懒加载</h2>
       <p className="desc" style={{ margin: 0 }}>进入视口前不加载，进入后平滑去模糊。</p>
       <div className="image-grid">
         {images.map((src, i) => (
