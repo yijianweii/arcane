@@ -1,0 +1,40 @@
+.overlay {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  bottom: 24px;
+  width: 190px;
+  transform: translateX(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .28s cubic-bezier(.22,.61,.36,1), opacity .2s ease;
+  will-change: transform, opacity;
+  z-index: 20;
+}
+.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
+.panel {
+  height: 100%;
+  padding: 10px;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--card) 85%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.backdrop {
+  position: absolute;
+  inset: 24px;
+  background: color-mix(in oklab, var(--bg) 30%, transparent);
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+  border-radius: 16px;
+}
+.show { opacity: .4; pointer-events: auto; }
+.group { font-weight: 700; font-size: 11px; color: var(--muted); padding: 4px 8px; }
+.list { display: flex; flex-direction: column; gap: 6px; }
+.item { width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 10px; border-radius: 8px; color: var(--text); text-decoration: none; font-size: 12px; background: transparent; }
+.active { background: color-mix(in oklab, var(--card) 90%, transparent); border-left: 3px solid var(--accent); }
+.item:hover { background: color-mix(in oklab, var(--card) 85%, transparent); }

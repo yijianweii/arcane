@@ -1,0 +1,192 @@
+* {
+  box-sizing: border-box
+}
+
+html,
+body,
+#root {
+  height: 100%
+}
+
+html {
+  scroll-behavior: smooth
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+
+
+
+.demo-card {
+  padding: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+.demo-card h3 {
+  margin: 0;
+}
+
+.demo-card p {
+  margin: 0;
+  color: var(--muted)
+}
+
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.token {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+}
+
+.canvas-wrap {
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.img-item {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.img-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(8px);
+  transform: scale(1.06);
+  transition: filter .4s ease, transform .4s ease;
+}
+
+.img-item img.loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
+
+
+@keyframes ambient {
+  from {
+    transform: rotate(0deg)
+  }
+
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(1200px 600px at 10% 10%, color-mix(in oklab, var(--accent) 55%, transparent), transparent 60%), radial-gradient(800px 600px at 90% 80%, color-mix(in oklab, var(--accent) 35%, var(--card) 65%), transparent 60%);
+}
+
+.desktop-card {
+  height: 80vh;
+  width: min(1200px, 92vw);
+  margin: 0 auto;
+  padding: 40px 24px;
+  border-radius: 22px;
+  box-shadow: 0 30px 60px rgba(17, 24, 39, .30);
+}
+
+.desktop-card {
+  position: relative;
+}
+
+.card-header {
+  display: grid;
+  grid-template-columns: 220px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+}
+
+.search {
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--bg) 75%, transparent);
+  color: var(--text);
+  padding: 0 12px;
+  outline: none;
+}
+
+.search::placeholder {
+  color: var(--muted)
+}
+
+.desktop-inner {
+  position: relative;
+  display: block;
+  padding: 0;
+  height: 100%;
+}
+
+
+
+
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+/* removed transform effect to keep overlay purely floating */
+
+.side-toggle {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: transform .2s ease, filter .2s ease;
+  z-index: 30;
+}
+
+.side-toggle[aria-expanded="true"] {
+  transform: rotate(180deg);
+}
+
+.side-toggle:hover {
+  filter: brightness(1.05);
+}
+
+.global-switch {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 100;
+}
+
+
+/* 简化为单键切换，无弹出菜单 */
