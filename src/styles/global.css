@@ -191,6 +191,12 @@ body {
 
 
 /* 简化为单键切换，无弹出菜单 */
+/* scrollbar theme */
+html { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--text) 30%, transparent) color-mix(in oklab, var(--bg) 85%, transparent); }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: color-mix(in oklab, var(--bg) 85%, transparent); border-radius: 10px; }
+*::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--text) 25%, transparent); border-radius: 10px; background-clip: padding-box; border: 2px solid transparent; }
+*::-webkit-scrollbar-thumb:hover { background: color-mix(in oklab, var(--text) 38%, transparent); }
 @media (max-width: 768px) {
   .desktop-card {
     width: 100%;

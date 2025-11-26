@@ -6,6 +6,7 @@ import ThemeShowcase from './demos/ThemeShowcase'
 import CanvasParticles from './demos/CanvasParticles'
 import LazyImageDemo from './demos/LazyImageDemo'
 import CityVoxels from './demos/CityVoxels'
+import DocxPreview from './demos/DocxPreview'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
               <Route path="canvas" element={<CanvasParticles />} />
               <Route path="lazy-image" element={<LazyImageDemo />} />
               <Route path="city" element={<CityVoxels />} />
+              <Route path="docx" element={<DocxPreview />} />
             </Route>
             <Route
               path="*"

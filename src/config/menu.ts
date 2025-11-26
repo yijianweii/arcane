@@ -14,6 +14,7 @@ export const menu: MenuGroup[] = [
     items: [
       { path: '/demo/lazy-image', label: '图片懒加载' },
       { path: '/demo/city', label: '体素城市' },
+      { path: '/demo/docx', label: 'Word 预览' },
     ],
   },
 ]

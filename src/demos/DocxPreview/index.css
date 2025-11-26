@@ -1,0 +1,17 @@
+.demo { display: grid; gap: 12px; }
+.desc { color: var(--muted); }
+.docx-wrap { position: relative; border-radius: 12px; }
+.docx-toolbar { display: flex; align-items: center; gap: 8px; padding: 12px; border-bottom: 1px solid var(--border); background: color-mix(in oklab, var(--card) 90%, transparent); }
+.file-name { color: var(--muted); font-size: 12px; }
+.drop-zone { position: relative; height: 420px; overflow: auto; }
+.hint { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); }
+.error { position: absolute; left: 12px; top: 12px; color: #e57373; font-size: 12px; }
+.docx-view { padding: 14px; color: var(--text); }
+.docx-view h1, .docx-view h2, .docx-view h3 { margin: 12px 0; }
+.docx-view p { margin: 10px 0; }
+.docx-view table { border-collapse: collapse; width: 100%; }
+.docx-view table, .docx-view th, .docx-view td { border: 1px solid var(--border); }
+.docx-view th, .docx-view td { padding: 8px; }
+
+@media (max-width: 768px) { .drop-zone { height: 360px; } }
+@media (max-width: 480px) { .drop-zone { height: 300px; } }

@@ -98,12 +98,12 @@ export default function CityVoxels() {
     <div className="demo">
       <h2 style={{ margin: 0 }}>体素城市生成</h2>
       <p className="desc" style={{ margin: 0 }}>噪声驱动街区与楼高，自动漫游，可重新生成。</p>
+      <div className="city-controls">
+        <button className="btn" onClick={() => setSeed(makeSeed())}>重新生成</button>
+        <button className="btn secondary" onClick={() => setTick(v => v + 1)}>加速漫游</button>
+      </div>
       <div className="city-wrap card">
         <canvas ref={ref} style={{ width: '100%', height: '100%' }} />
-        <div className="city-controls">
-          <button className="btn" onClick={() => setSeed(makeSeed())}>重新生成</button>
-          <button className="btn secondary" onClick={() => setTick(v => v + 1)}>加速漫游</button>
-        </div>
       </div>
     </div>
   )

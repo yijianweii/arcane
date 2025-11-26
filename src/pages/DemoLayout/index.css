@@ -7,6 +7,21 @@
   padding-inline: clamp(12px, 4vw, 24px);
 }
 
+.content-wrap {
+  position: relative;
+}
+
+.content-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 30%, rgba(0, 0, 0, .18), rgba(0, 0, 0, 0));
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
 .back-btn {
   position: fixed;
   left: 16px;
@@ -30,6 +45,42 @@
   transform: translateY(-1px);
 }
 
+.menu-btn {
+  position: fixed;
+  right: 16px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  transition: transform .15s ease, filter .15s ease;
+  z-index: 50;
+}
+
+.menu-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.menu-btn.open {
+  transform: rotate(90deg);
+}
+
+.dim .content-card {
+  transform: scale(.985);
+  filter: blur(2px) brightness(.98) saturate(.92);
+  transition: transform .28s ease, filter .28s ease;
+}
+
+.content-wrap.dim::after {
+  opacity: 1;
+}
+
 .content-card {
   padding: 18px;
   max-height: calc(100svh - 140px);
@@ -39,6 +90,13 @@
 @media (max-width: 768px) {
   .back-btn {
     left: max(12px, env(safe-area-inset-left));
+    top: max(12px, env(safe-area-inset-top));
+    width: 36px;
+    height: 36px;
+  }
+
+  .menu-btn {
+    right: max(12px, env(safe-area-inset-right));
     top: max(12px, env(safe-area-inset-top));
     width: 36px;
     height: 36px;
