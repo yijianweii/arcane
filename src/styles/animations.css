@@ -1,0 +1,186 @@
+:root {
+  --animation-speed: 0.3s;
+  --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-bounce: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 淡入上移动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 淡入下移动画 */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 缩放动画 */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* 心跳动画 */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.1);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+/* 脉冲动画 */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--accent-rgb), 0);
+  }
+}
+
+/* 旋转动画 */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 摇摆动画 */
+@keyframes swing {
+  20% {
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(-10deg);
+  }
+  60% {
+    transform: rotate(5deg);
+  }
+  80% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* 悬停上浮 */
+.hover-lift {
+  transition: transform var(--animation-speed) var(--animation-timing),
+              box-shadow var(--animation-speed) var(--animation-timing);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* 悬停缩放 */
+.hover-scale {
+  transition: transform var(--animation-speed) var(--animation-timing);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* 悬停变色 */
+.hover-color {
+  transition: color var(--animation-speed) var(--animation-timing),
+              background-color var(--animation-speed) var(--animation-timing);
+}
+
+/* 淡入效果类 */
+.fade-in {
+  animation: fadeIn var(--animation-speed) var(--animation-timing) forwards;
+}
+
+.fade-in-up {
+  animation: fadeInUp var(--animation-speed) var(--animation-timing) forwards;
+}
+
+.fade-in-down {
+  animation: fadeInDown var(--animation-speed) var(--animation-timing) forwards;
+}
+
+.scale-in {
+  animation: scaleIn var(--animation-speed) var(--animation-timing) forwards;
+}
+
+/* 无限动画类 */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+.animate-rotate {
+  animation: rotate 20s linear infinite;
+}
+
+/* 延迟动画 */
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}

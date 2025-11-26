@@ -1,25 +1,76 @@
-.wrap {
+.theme-switch {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--border-radius-md);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.theme-toggle:hover {
+  background: var(--hover-bg);
+  color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.color-picker {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.color-option {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
   position: relative;
 }
 
-.button {
-  all: unset;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background:
-    radial-gradient(18px 18px at 30% 30%, color-mix(in oklab, var(--accent) 45%, var(--card) 55%), transparent 70%),
-    color-mix(in oklab, var(--card) 82%, transparent);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .14);
-  display: grid;
-  place-items: center;
-  color: var(--text);
+.color-option:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px var(--card-bg);
 }
 
-.button:hover {
-  filter: brightness(1.06);
-  transform: translateY(-1px);
-  transition: transform .15s ease, filter .15s ease;
+.color-option.active {
+  transform: scale(1.2);
+  border-color: var(--text-color);
+  box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 3px var(--text-color);
+}
+
+.color-option.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
 }

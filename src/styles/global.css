@@ -15,30 +15,39 @@ html {
 body {
   margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 
 
 
 .demo-card {
-  padding: 18px;
+  padding: 24px;
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .demo-card h3 {
   margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .demo-card p {
   margin: 0;
-  color: var(--muted)
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 .token-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
 }
 
 .token {
@@ -48,15 +57,16 @@ body {
 }
 
 .canvas-wrap {
-  height: 280px;
-  border-radius: 12px;
+  height: 320px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  position: relative;
 }
 
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
 }
 
 .img-item {
@@ -105,8 +115,10 @@ body {
   width: min(1200px, 92vw);
   margin: 0 auto;
   padding: 40px 24px;
-  border-radius: 22px;
-  box-shadow: 0 30px 60px rgba(17, 24, 39, .30);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .desktop-card {
@@ -122,13 +134,24 @@ body {
 }
 
 .search {
-  height: 38px;
-  border-radius: 10px;
+  height: 42px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--bg) 75%, transparent);
+  background: var(--card);
   color: var(--text);
-  padding: 0 12px;
+  padding: 0 16px;
   outline: none;
+  transition: var(--transition);
+  font-size: 0.95rem;
+}
+
+.search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search::placeholder {
+  color: var(--muted);
 }
 
 .search::placeholder {
@@ -203,28 +226,55 @@ html { scrollbar-width: thin; scrollbar-color: color-mix(in oklab, var(--text) 3
     height: 86svh;
     padding: 24px 16px;
     padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
-    border-radius: 18px;
+    border-radius: var(--radius-xl);
   }
   .page-bg { inset: 0; }
   .main { gap: 10px; padding-inline: clamp(12px, 4vw, 20px); }
   .side-toggle { left: 12px; top: 12px; width: 36px; height: 36px; }
-  .token-grid { grid-template-columns: repeat(3, 1fr); }
-  .image-grid { grid-template-columns: repeat(2, 1fr); }
-  .canvas-wrap { height: 220px; }
+  .token-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+  .image-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .canvas-wrap { height: 260px; }
   .global-switch { display: none; }
+  
+  /* 移动端优化的排版 */
+  h1 {
+    font-size: 1.75rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 480px) {
   .desktop-card {
     width: 100%;
     height: 86svh;
-    padding: 16px 12px;
+    padding: 20px 14px;
     padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right));
-    border-radius: 14px;
+    border-radius: var(--radius-xl);
   }
-  .main { gap: 8px; padding-inline: clamp(12px, 5vw, 18px); }
+  .main { gap: 12px; padding-inline: clamp(12px, 5vw, 18px); }
   .side-toggle { left: 10px; top: 10px; width: 38px; height: 38px; }
-  .token-grid { grid-template-columns: repeat(2, 1fr); }
-  .image-grid { grid-template-columns: 1fr; }
-  .canvas-wrap { height: 200px; }
+  .token-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .image-grid { grid-template-columns: 1fr; gap: 12px; }
+  .canvas-wrap { height: 240px; }
+  
+  /* 移动端进一步优化 */
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
 }
