@@ -12,6 +12,7 @@ const CityVoxels = React.lazy(() => import('./demos/CityVoxels'))
 const DocxPreview = React.lazy(() => import('./demos/DocxPreview'))
 const ThreeDCardDemo = React.lazy(() => import('./demos/3DCardDemo'))
 const ChartDemo = React.lazy(() => import('./demos/ChartDemo'))
+const MinimalResumeDemo = React.lazy(() => import('./demos/MinimalResumeDemo'))
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
                 <Route path="docx" element={<DocxPreview />} />
                 <Route path="3d-card" element={<ThreeDCardDemo />} />
                 <Route path="chart" element={<ChartDemo />} />
+                <Route path="resume" element={<MinimalResumeDemo />} />
               </Route>
               <Route
                 path="*"

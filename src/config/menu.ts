@@ -17,6 +17,7 @@ export const menu: MenuGroup[] = [
       { path: '/demo/city', label: '体素城市' },
       { path: '/demo/docx', label: 'Word 预览' },
       { path: '/demo/chart', label: '动态图表' },
+      { path: '/demo/resume', label: '极简简历' },
     ],
   },
 ]
