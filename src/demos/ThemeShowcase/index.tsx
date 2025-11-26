@@ -10,6 +10,8 @@ const tokens = [
 ]
 
 export default function ThemeShowcase() {
+
+  console.log(' ---', );
   return (
     <div className="demo">
       <h2 style={{ margin: 0 }}>主题系统示例</h2>
