@@ -4,13 +4,12 @@ import './index.css'
 export default function DemoLayout() {
   return (
     <div className="page">
-      <div style={{ display: 'flex', gap: 8 }}>
-        <Link className="btn" to="/">返回首页</Link>
-        <Link className="btn secondary" to="/demo/theme">主题系统</Link>
-        <Link className="btn secondary" to="/demo/canvas">Canvas 粒子</Link>
-        <Link className="btn secondary" to="/demo/lazy-image">图片懒加载</Link>
-      </div>
-      <div className="card" style={{ padding: 18 }}>
+      <Link className="back-btn" aria-label="返回首页" to="/">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </Link>
+      <div className="card content-card">
         <Outlet />
       </div>
     </div>

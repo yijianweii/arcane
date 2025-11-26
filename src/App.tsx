@@ -5,6 +5,7 @@ import DemoLayout from './pages/DemoLayout'
 import ThemeShowcase from './demos/ThemeShowcase'
 import CanvasParticles from './demos/CanvasParticles'
 import LazyImageDemo from './demos/LazyImageDemo'
+import CityVoxels from './demos/CityVoxels'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
               <Route path="theme" element={<ThemeShowcase />} />
               <Route path="canvas" element={<CanvasParticles />} />
               <Route path="lazy-image" element={<LazyImageDemo />} />
+              <Route path="city" element={<CityVoxels />} />
             </Route>
             <Route
               path="*"

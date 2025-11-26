@@ -1,6 +1,15 @@
 .page {}
-.corner-right { position: absolute; top: 24px; right: 24px; z-index: 10000; }
+
+.corner-right {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 10000;
+}
 
 @media (max-width: 768px) {
-  .corner-right { top: 12px; right: 12px; }
+  .corner-right {
+    top: 12px;
+    right: 12px;
+  }
 }

@@ -13,6 +13,7 @@ export const menu: MenuGroup[] = [
     title: 'DEMO',
     items: [
       { path: '/demo/lazy-image', label: '图片懒加载' },
+      { path: '/demo/city', label: '体素城市' },
     ],
   },
 ]

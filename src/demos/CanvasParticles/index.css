@@ -1,1 +1,4 @@
-.demo { display: grid; gap: 12px; }
+.demo {
+  display: grid;
+  gap: 12px;
+}

@@ -1,4 +1,7 @@
-.wrap { position: relative; }
+.wrap {
+  position: relative;
+}
+
 .button {
   all: unset;
   cursor: pointer;
@@ -14,4 +17,9 @@
   place-items: center;
   color: var(--text);
 }
-.button:hover { filter: brightness(1.06); transform: translateY(-1px); transition: transform .15s ease, filter .15s ease; }
+
+.button:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  transition: transform .15s ease, filter .15s ease;
+}

@@ -1,1 +1,50 @@
-.page { display: grid; gap: 16px; }
+.page {
+  display: grid;
+  gap: 16px;
+  position: relative;
+  padding-top: max(60px, calc(env(safe-area-inset-top) + 48px));
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 24px));
+  padding-inline: clamp(12px, 4vw, 24px);
+}
+
+.back-btn {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  box-shadow: var(--shadow);
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  text-decoration: none;
+  transition: transform .15s ease, filter .15s ease;
+  z-index: 50;
+}
+
+.back-btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.content-card {
+  padding: 18px;
+  max-height: calc(100svh - 140px);
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .back-btn {
+    left: max(12px, env(safe-area-inset-left));
+    top: max(12px, env(safe-area-inset-top));
+    width: 36px;
+    height: 36px;
+  }
+
+  .content-card {
+    max-height: calc(100svh - 150px);
+  }
+}
