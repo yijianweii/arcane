@@ -6,7 +6,8 @@ import DemoLayout from './pages/DemoLayout'
 
 const loadDemo = (name: string) => {
   // 处理BlogPost这种特殊情况，确保正确的导入路径
-  const importPath = name === 'BlogDemo/BlogPost' ? './demos/BlogDemo/BlogPost' : `./demos/${name}`;
+  // 显式添加.tsx扩展名以帮助Vite正确解析动态导入
+  const importPath = name === 'BlogDemo/BlogPost' ? './demos/BlogDemo/BlogPost.tsx' : `./demos/${name}/index.tsx`;
   const Component = React.lazy(() => import(importPath));
   return <Component />;
 };
