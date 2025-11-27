@@ -4,13 +4,17 @@ import { ThemeProvider } from './theme'
 import Home from './pages/Home'
 import DemoLayout from './pages/DemoLayout'
 
-const loadDemo = (name: string) => {
-  // 处理BlogPost这种特殊情况，确保正确的导入路径
-  // 显式添加.tsx扩展名以帮助Vite正确解析动态导入
-  const importPath = name === 'BlogDemo/BlogPost' ? './demos/BlogDemo/BlogPost.tsx' : `./demos/${name}/index.tsx`;
-  const Component = React.lazy(() => import(importPath));
-  return <Component />;
-};
+// 直接导入所有demo组件
+import BlogDemo from './demos/BlogDemo'
+import BlogPost from './demos/BlogDemo/BlogPost'
+import ThemeShowcase from './demos/ThemeShowcase'
+import CanvasParticles from './demos/CanvasParticles'
+import LazyImageDemo from './demos/LazyImageDemo'
+import CityVoxels from './demos/CityVoxels'
+import DocxPreview from './demos/DocxPreview'
+import Card3DDemo from './demos/3DCardDemo'
+import ChartDemo from './demos/ChartDemo'
+import MinimalResumeDemo from './demos/MinimalResumeDemo'
 
 export default function App() {
   return (
@@ -20,17 +24,17 @@ export default function App() {
           <Suspense fallback={<div className="loading">加载中...</div>}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/demo" element={<DemoLayout />}>
-                <Route path="blog" element={loadDemo('BlogDemo')} />
-                <Route path="blog/:id" element={loadDemo('BlogDemo/BlogPost')} />
-                <Route path="theme" element={loadDemo('ThemeShowcase')} />
-                <Route path="canvas" element={loadDemo('CanvasParticles')} />
-                <Route path="lazy-image" element={loadDemo('LazyImageDemo')} />
-                <Route path="city" element={loadDemo('CityVoxels')} />
-                <Route path="docx" element={loadDemo('DocxPreview')} />
-                <Route path="3d-card" element={loadDemo('3DCardDemo')} />
-                <Route path="chart" element={loadDemo('ChartDemo')} />
-                <Route path="resume" element={loadDemo('MinimalResumeDemo')} />
+              <Route path="demo" element={<DemoLayout />}>
+                <Route path="blog" element={<BlogDemo />} />
+                <Route path="blog/:id" element={<BlogPost />} />
+                <Route path="theme" element={<ThemeShowcase />} />
+                <Route path="canvas" element={<CanvasParticles />} />
+                <Route path="lazy-image" element={<LazyImageDemo />} />
+                <Route path="city" element={<CityVoxels />} />
+                <Route path="docx" element={<DocxPreview />} />
+                <Route path="3d-card" element={<Card3DDemo />} />
+                <Route path="chart" element={<ChartDemo />} />
+                <Route path="resume" element={<MinimalResumeDemo />} />
               </Route>
               <Route
                 path="*"
