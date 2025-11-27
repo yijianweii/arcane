@@ -82,9 +82,9 @@ export default function BlogDemo() {
           <div className="post-list">
             {posts.map(post => (
               <div key={post.id} className="post-card">
-                <h3 className="post-title">
+                <h4 className="post-title">
                   <Link to={`/demo/blog/${post.id}`}>{post.title}</Link>
-                </h3>
+                </h4>
                 <div className="post-author">作者: {post.author}</div>
                 <div className="post-meta">
                   <span className="post-date">{post.date}</span>
