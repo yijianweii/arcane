@@ -6,9 +6,12 @@ import './styles/theme.css'
 import './styles/global.css'
 import './styles/animations.css'
 
+// GitHub Pages路径配置
+const basename = import.meta.env.PROD ? '/arcane/' : '/'
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </React.StrictMode>
