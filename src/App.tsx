@@ -5,7 +5,9 @@ import Home from './pages/Home'
 import DemoLayout from './pages/DemoLayout'
 
 const loadDemo = (name: string) => {
-  const Component = React.lazy(() => import(`./demos/${name}`));
+  // 处理BlogPost这种特殊情况，确保正确的导入路径
+  const importPath = name === 'BlogDemo/BlogPost' ? './demos/BlogDemo/BlogPost' : `./demos/${name}`;
+  const Component = React.lazy(() => import(importPath));
   return <Component />;
 };
 
