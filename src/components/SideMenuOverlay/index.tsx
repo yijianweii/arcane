@@ -1,12 +1,16 @@
 import { NavLink } from 'react-router-dom'
 import { menu } from '@/config/menu'
 import './index.css'
+import ModeToggle from './ModeToggle'
 
 export default function SideMenuOverlay({ open, onClose, variant = 'overlay' }: { open: boolean, onClose: () => void, variant?: 'overlay' | 'full' }) {
   return (
     <>
       <div className={`overlay ${variant === 'full' ? 'full' : ''} ${open ? 'open' : ''}`} aria-hidden={!open}>
         <div className="panel" id="sidebar">
+          <div className="mode-toggle-container">
+            <ModeToggle />
+          </div>
           {menu.map((g) => (
             <div key={g.title}>
               <div className="group">{g.title}</div>

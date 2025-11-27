@@ -5,6 +5,7 @@ export const menu: MenuGroup[] = [
   {
     title: 'PICK',
     items: [
+      { path: '/demo/blog', label: '技术博客' },
       { path: '/demo/theme', label: '主题系统' },
       { path: '/demo/canvas', label: 'Canvas 粒子' },
       { path: '/demo/3d-card', label: '3D 卡片' },

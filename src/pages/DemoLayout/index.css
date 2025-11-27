@@ -103,6 +103,6 @@
   }
 
   .content-card {
-    max-height: calc(100svh - 150px);
+    max-height: calc(100svh - 100px);
   }
 }

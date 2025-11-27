@@ -4,15 +4,10 @@ import { ThemeProvider } from './theme'
 import Home from './pages/Home'
 import DemoLayout from './pages/DemoLayout'
 
-// 使用React.lazy实现组件懒加载
-const ThemeShowcase = React.lazy(() => import('./demos/ThemeShowcase'))
-const CanvasParticles = React.lazy(() => import('./demos/CanvasParticles'))
-const LazyImageDemo = React.lazy(() => import('./demos/LazyImageDemo'))
-const CityVoxels = React.lazy(() => import('./demos/CityVoxels'))
-const DocxPreview = React.lazy(() => import('./demos/DocxPreview'))
-const ThreeDCardDemo = React.lazy(() => import('./demos/3DCardDemo'))
-const ChartDemo = React.lazy(() => import('./demos/ChartDemo'))
-const MinimalResumeDemo = React.lazy(() => import('./demos/MinimalResumeDemo'))
+const loadDemo = (name: string) => {
+  const Component = React.lazy(() => import(`./demos/${name}`));
+  return <Component />;
+};
 
 export default function App() {
   return (
@@ -23,14 +18,16 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/demo" element={<DemoLayout />}>
-                <Route path="theme" element={<ThemeShowcase />} />
-                <Route path="canvas" element={<CanvasParticles />} />
-                <Route path="lazy-image" element={<LazyImageDemo />} />
-                <Route path="city" element={<CityVoxels />} />
-                <Route path="docx" element={<DocxPreview />} />
-                <Route path="3d-card" element={<ThreeDCardDemo />} />
-                <Route path="chart" element={<ChartDemo />} />
-                <Route path="resume" element={<MinimalResumeDemo />} />
+                <Route path="blog" element={loadDemo('BlogDemo')} />
+                <Route path="blog/:id" element={loadDemo('BlogDemo/BlogPost')} />
+                <Route path="theme" element={loadDemo('ThemeShowcase')} />
+                <Route path="canvas" element={loadDemo('CanvasParticles')} />
+                <Route path="lazy-image" element={loadDemo('LazyImageDemo')} />
+                <Route path="city" element={loadDemo('CityVoxels')} />
+                <Route path="docx" element={loadDemo('DocxPreview')} />
+                <Route path="3d-card" element={loadDemo('3DCardDemo')} />
+                <Route path="chart" element={loadDemo('ChartDemo')} />
+                <Route path="resume" element={loadDemo('MinimalResumeDemo')} />
               </Route>
               <Route
                 path="*"

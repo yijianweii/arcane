@@ -13,8 +13,8 @@ export default function DemoLayout() {
   return (
     <div className="page">
       <Link className="back-btn" aria-label="返回首页" to="/">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M15 18l-6-6 6-6" />
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         </svg>
       </Link>
       <button className={`menu-btn ${open ? 'open' : ''}`} aria-expanded={open} aria-controls="sidebar" onClick={() => setOpen(v => !v)}>
