@@ -9,6 +9,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  // 使用相对路径避免部署时的路径问题
-  base: './'
 })
