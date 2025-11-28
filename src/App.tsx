@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import 'antd-mobile/es/global'
 import { Routes, Route, Link } from 'react-router-dom'
 import { ThemeProvider } from './theme'
 import Home from './pages/Home'
@@ -15,6 +16,7 @@ import DocxPreview from './demos/DocxPreview'
 import Card3DDemo from './demos/3DCardDemo'
 import ChartDemo from './demos/ChartDemo'
 import MinimalResumeDemo from './demos/MinimalResumeDemo'
+import ResumeStudio from './demos/ResumeStudio'
 
 export default function App() {
   return (
@@ -35,6 +37,7 @@ export default function App() {
                 <Route path="3d-card" element={<Card3DDemo />} />
                 <Route path="chart" element={<ChartDemo />} />
                 <Route path="resume" element={<MinimalResumeDemo />} />
+                <Route path="resume-studio" element={<ResumeStudio />} />
               </Route>
               <Route
                 path="*"

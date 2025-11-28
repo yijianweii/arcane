@@ -19,6 +19,7 @@ export const menu: MenuGroup[] = [
       { path: '/demo/docx', label: 'Word 预览' },
       { path: '/demo/chart', label: '动态图表' },
       { path: '/demo/resume', label: '极简简历' },
+      { path: '/demo/resume-studio', label: '简历编辑器' },
     ],
   },
 ]
