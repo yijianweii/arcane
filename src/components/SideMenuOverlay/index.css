@@ -1,174 +1,159 @@
 .overlay {
-  position: absolute;
-  left: 24px;
-  top: 24px;
-  bottom: 24px;
-  width: 190px;
-  transform: translateX(-8px);
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 20000;
   opacity: 0;
   pointer-events: none;
-  transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .2s ease;
-  will-change: transform, opacity;
-  z-index: 20;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .open {
-  transform: translateX(0);
   opacity: 1;
   pointer-events: auto;
 }
 
 .panel {
+  width: 100%;
+  max-width: 400px;
   height: 100%;
-  padding: 10px;
-  border-radius: 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  max-height: 100dvh;
+  padding: 80px 20px 40px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border) transparent;
+  align-items: center;
+  /* Remove justify-content: center to allow top alignment if content is long */
   position: relative;
 }
 
-/* 滚动条样式优化 */
-.panel::-webkit-scrollbar {
-  width: 4px;
+.menu-content {
+  width: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 40px;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.panel::-webkit-scrollbar-track {
-  background: transparent;
+.menu-content::-webkit-scrollbar {
+  display: none;
 }
 
-.panel::-webkit-scrollbar-thumb {
-  background-color: var(--border);
-  border-radius: 2px;
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-.panel::-webkit-scrollbar-thumb:hover {
-  background-color: var(--muted);
-}
-
-.backdrop {
+.mode-toggle-container {
   position: absolute;
-  inset: 24px;
-  background: color-mix(in oklab, var(--bg) 30%, transparent);
-  opacity: 0;
-  transition: opacity .25s ease;
-  pointer-events: none;
-  border-radius: 16px;
+  top: 24px;
+  right: 24px;
+  z-index: 1001;
 }
 
-.show {
-  opacity: .4;
-  pointer-events: auto;
+.close-btn {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1001;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.menu-group-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .group {
-  font-weight: 700;
-  font-size: 11px;
-  color: var(--muted);
-  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
 }
 
 .item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  color: var(--text);
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
-  font-size: 12px;
-  background: transparent;
-}
-
-.active {
-  background: color-mix(in oklab, var(--card) 90%, transparent);
+  padding: 8px 24px;
+  border-radius: 999px;
+  transition: all 0.3s ease;
+  position: relative;
+  white-space: nowrap;
 }
 
 .item:hover {
-  background: color-mix(in oklab, var(--card) 85%, transparent);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
 }
 
-@media (max-width: 768px) {
-  .overlay { left: 12px; top: 12px; bottom: 12px; width: min(86%, 360px); max-width: 360px; }
-  .backdrop { inset: 12px; }
-  .panel { padding: 8px; border-radius: 14px; }
-  .item { font-size: 14px; padding: 8px 12px; }
+.item.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-@media (max-width: 480px) {
-  .overlay { width: min(90%, 340px); max-width: 340px; }
-  .item { font-size: 15px; }
-}
-
-.full {
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  border-radius: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-8px) scale(.98);
-  transition: transform .28s cubic-bezier(.22, .61, .36, 1), opacity .22s ease;
-}
-.full.open {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
-}
-.full .panel { width: 100%; height: 100%; border-radius: 16px; }
-.full ~ .backdrop { inset: 0; border-radius: 16px; opacity: 0; pointer-events: none; }
-
-.mode-toggle-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 10;
+.backdrop {
+  display: none;
 }
 
 @media (max-width: 768px) {
   .mode-toggle-container {
-    top: 8px;
-    right: 8px;
+    top: 16px;
+    right: 16px;
   }
-}
+  
+  .close-btn {
+    top: 16px;
+    left: 16px;
+  }
 
-/* Mode Toggle Styles */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-.theme-toggle:hover {
-  background: color-mix(in oklab, var(--card) 85%, transparent);
-  color: var(--accent-color);
-  transform: translateY(-1px);
-}
-
-.theme-toggle:active {
-  transform: translateY(0);
+  .item {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+  
+  .panel {
+    padding-top: 70px;
+  }
 }

@@ -7,9 +7,42 @@
   z-index: 10000;
 }
 
+.side-toggle {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease;
+}
+
+.side-toggle:hover {
+  background: var(--hover-bg);
+  transform: scale(1.05);
+}
+
+.side-toggle.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.9);
+}
+
 @media (max-width: 768px) {
   .corner-right {
     top: 12px;
     right: 12px;
+  }
+  
+  .side-toggle {
+    top: 12px;
+    left: 12px;
   }
 }

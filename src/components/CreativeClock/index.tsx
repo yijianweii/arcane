@@ -1,64 +1,72 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './index.css'
 
-function useNow() {
-  const [date, setDate] = useState(() => new Date())
+function useTime() {
+  const [, force] = useState(0)
   useEffect(() => {
-    const t = setInterval(() => setDate(new Date()), 1000)
-    return () => clearInterval(t)
+    const i = setInterval(() => force(t => t + 1), 1000)
+    return () => clearInterval(i)
   }, [])
-  return date
+  const now = new Date()
+  return {
+    day: now.getDate().toString().padStart(2, '0'),
+    hours: now.getHours().toString().padStart(2, '0'),
+    minutes: now.getMinutes().toString().padStart(2, '0'),
+    seconds: now.getSeconds().toString().padStart(2, '0'),
+  }
 }
 
-function Flip({ value }: { value: string }) {
+function Digit({ value }: { value: string }) {
   const [prev, setPrev] = useState(value)
+  const [curr, setCurr] = useState(value)
   const [anim, setAnim] = useState(false)
-  const timer = useRef<number | null>(null)
   useEffect(() => {
-    if (value !== prev) {
-      setPrev(value)
+    if (value !== curr) {
+      setPrev(curr)
+      setCurr(value)
       setAnim(true)
-      if (timer.current) window.clearTimeout(timer.current)
-      timer.current = window.setTimeout(() => setAnim(false), 600)
+      const t = setTimeout(() => setAnim(false), 420)
+      return () => clearTimeout(t)
     }
-  }, [value])
+  }, [value, curr])
   return (
-    <div className={`flip ${anim ? 'animate' : ''}`}>
-      <div className="top">{value}</div>
-      <div className="bottom">{value}</div>
+    <div className={`tile ${anim ? 'animate' : ''}`}>
+      <div className="tile-inner">
+        {curr.split('').map((ch, i) => (
+          <div className="roll" key={i}>
+            <div className="roll-inner">
+              <span className="d prev">{prev[i] || '0'}</span>
+              <span className="d curr">{ch}</span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-function Digits({ value }: { value: string }) {
+function Colon() {
   return (
-    <div className="digits">
-      {value.split('').map((ch, i) => (
-        ch === ':' ? (
-          <div className="colon" key={'c' + i}>:</div>
-        ) : (
-          <Flip value={ch} key={i + '-' + ch} />
-        )
-      ))}
+    <div className="colon">
+      <span className="dot" />
+      <span className="dot" />
     </div>
   )
 }
 
 export default function CreativeClock() {
-  const now = useNow()
-  const hh = now.getHours().toString().padStart(2, '0')
-  const mm = now.getMinutes().toString().padStart(2, '0')
-  const ss = now.getSeconds().toString().padStart(2, '0')
-  const display = `${hh}:${mm}:${ss}`
+  const time = useTime()
   return (
     <div className="clock">
-      <div className="time time-h"><Digits value={display} /></div>
-      <div className="time time-v">
-        <div className="row"><Digits value={hh} /></div>
-        <div className="colon-row">:</div>
-        <div className="row"><Digits value={mm} /></div>
-        <div className="colon-row">:</div>
-        <div className="row"><Digits value={ss} /></div>
+      <div className="heading">Current Time</div>
+      <div className="board">
+        <div className="group"><Digit value={time.day} /><div className="sub">Day</div></div>
+        <Colon />
+        <div className="group"><Digit value={time.hours} /><div className="sub">Hour</div></div>
+        <Colon />
+        <div className="group"><Digit value={time.minutes} /><div className="sub">Minute</div></div>
+        <Colon />
+        <div className="group"><Digit value={time.seconds} /><div className="sub">Second</div></div>
       </div>
     </div>
   )
