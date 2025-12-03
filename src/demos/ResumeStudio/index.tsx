@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Modal, Form, Input, TextArea, Toast } from 'antd-mobile'
-import { AddOutline, EditSOutline, DeleteOutline } from 'antd-mobile-icons'
+import { AddOutline, EditSOutline, DeleteOutline, DownOutline, UpOutline, MoreOutline, SetOutline } from 'antd-mobile-icons'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
 import { useTheme } from '../../theme'
 import './index.css'
 
@@ -41,7 +43,24 @@ export default function ResumeStudio() {
   const [modalType, setModalType] = useState<'overview' | 'skills' | 'experience' | 'education' | null>(null)
   const [modalIndex, setModalIndex] = useState<number | null>(null)
   const [modalTemp, setModalTemp] = useState<any>({})
+  const [toolsOpen, setToolsOpen] = useState(false)
+  const [expExpanded, setExpExpanded] = useState<Set<number>>(new Set())
   const previewRef = useRef<HTMLDivElement | null>(null)
+
+  // Device detection
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 900)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const toggleExp = (i: number) => {
+    const next = new Set(expExpanded)
+    if (next.has(i)) next.delete(i)
+    else next.add(i)
+    setExpExpanded(next)
+  }
 
   const getInitials = (n: string) => {
     const s = String(n || '').trim()
@@ -118,61 +137,153 @@ export default function ResumeStudio() {
   const exportJSON = () => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const url = URL.createObjectURL(blob); download('resume.json', url); URL.revokeObjectURL(url) }
   const importJSON = (file: File) => { const r = new FileReader(); r.onload = () => { try { setData(JSON.parse(String(r.result))) } catch {} }; r.readAsText(file) }
 
-  const buildSvg = () => {
-    const w = 1000, h = 1400, pad = 64
-    let y = pad
-    const line = (t: string, size = 28, weight = 600, color = '#111827') => { const s = `<text x="${pad}" y="${y}" font-family="system-ui, -apple-system, Segoe UI, Roboto" font-size="${size}" font-weight="${weight}" fill="${color}">${t || ''}</text>`; y += size + 16; return s }
-    const hr = (c = '#e5e7eb') => { const s = `<rect x="${pad}" y="${y - 22}" width="${w - pad * 2}" height="2" fill="${c}"/>`; return s }
-    let c = ''
-    c += line(data.name, 34, 800)
-    c += line(data.title, 22, 500, '#6b7280')
-    c += line(`${data.contact.email} · ${data.contact.phone} · ${data.contact.website}`, 16, 400, '#374151')
-    c += hr()
-    c += line(data.summary, 16, 400, '#111827')
-    c += hr()
-    c += line('技能', 22, 700, '#1f2937')
-    c += line(data.skills.join(' · '), 16, 500, '#111827')
-    c += hr()
-    c += line('经历', 22, 700, '#1f2937')
-    data.experience.forEach(e => { c += line(`${e.company} · ${e.position} · ${e.period}`, 18, 700); c += line(e.description, 16, 400, '#374151') })
-    c += hr()
-    c += line('教育', 22, 700, '#1f2937')
-    data.education.forEach(e => { c += line(`${e.institution} · ${e.degree} · ${e.period}`, 18, 700) })
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><rect width="100%" height="100%" fill="#ffffff"/>${c}</svg>`
-    return svg
+  const captureResume = async (): Promise<HTMLCanvasElement | null> => {
+    if (!previewRef.current) {
+      console.error('Preview ref is null')
+      return null
+    }
+    const input = previewRef.current.querySelector('.sheet') as HTMLElement || previewRef.current
+
+    // Wait for fonts to load
+    await document.fonts.ready
+
+    // Clone for capture to avoid screen styles (zoom, scroll)
+    const clone = input.cloneNode(true) as HTMLElement
+    const wrapper = document.createElement('div')
+    wrapper.className = 'resume-studio' // Ensure scope
+    wrapper.style.position = 'fixed'
+    wrapper.style.left = '0'
+    wrapper.style.top = '0'
+    wrapper.style.width = '794px' // A4 width @ 96dpi
+    wrapper.style.zIndex = '-9999' // Ensure it's behind everything but technically "visible" in viewport
+    wrapper.style.opacity = '0' // Make it invisible to user but visible to DOM
+    wrapper.style.pointerEvents = 'none'
+
+    // Reset clone styles for print
+    clone.style.transform = 'none'
+    clone.style.zoom = '1'
+    clone.style.width = '100%'
+    clone.style.height = 'auto'
+    clone.style.margin = '0'
+    clone.style.padding = '32px' // Add print padding
+    clone.style.background = '#fff'
+    
+    wrapper.appendChild(clone)
+    document.body.appendChild(wrapper)
+
+    // Small delay to ensure rendering
+    await new Promise(r => setTimeout(r, 500))
+
+    try {
+      const canvas = await html2canvas(clone, {
+        scale: 2, // High resolution
+        useCORS: true,
+        logging: true, // Enable logging for debugging
+        backgroundColor: '#ffffff',
+        width: 794,
+        windowWidth: 794,
+        x: 0,
+        y: 0
+      })
+      return canvas
+    } catch (e) {
+      console.error('Export failed:', e)
+      throw e
+    } finally {
+      if (document.body.contains(wrapper)) {
+        document.body.removeChild(wrapper)
+      }
+    }
   }
 
-  const exportPNG = async () => { const svg = buildSvg(); const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); const img = new Image(); await new Promise<void>(r => { img.onload = () => r(); img.src = url }); const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d')!; ctx.drawImage(img, 0, 0); download('resume.png', canvas.toDataURL('image/png')) }
-  const exportPDF = () => { const w = window.open('', '_blank'); if (!w) return; const style = `@page { size: A4; margin: 12mm; } body { margin: 0; }`; const html = `<html><head><meta charset='utf-8'><title>Resume</title><style>${style}</style></head><body>${previewRef.current?.outerHTML || ''}<script>setTimeout(()=>window.print(),200)</script></body></html>`; w.document.write(html); w.document.close() }
+  const exportPNG = async () => {
+    try {
+      const canvas = await captureResume()
+      if (!canvas) {
+        Toast.show({ content: '导出失败：无法生成画布', position: 'bottom' })
+        return
+      }
+      download('resume.png', canvas.toDataURL('image/png'))
+    } catch (e: any) {
+      Toast.show({ content: `导出失败: ${e.message || '未知错误'}`, position: 'bottom' })
+    }
+  }
+
+  const exportPDF = async () => {
+    try {
+      const canvas = await captureResume()
+      if (!canvas) {
+        Toast.show({ content: '导出失败：无法生成画布', position: 'bottom' })
+        return
+      }
+
+      const imgData = canvas.toDataURL('image/png')
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      })
+
+      const imgProps = pdf.getImageProperties(imgData)
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight)
+      pdf.save('resume.pdf')
+    } catch (e: any) {
+      console.error(e)
+      Toast.show({ content: `导出失败: ${e.message || '未知错误'}`, position: 'bottom' })
+    }
+  }
 
   return (
     <div className={`resume-studio ${isDark ? 'dark' : ''}`}>
       <div className="studio-topbar">
         <div className="brand">Resume Studio</div>
         <div className="actions">
-          <div className="seg">
-            <button className={mode === 'edit' ? 'active' : ''} onClick={() => setModeView('edit')}>编辑</button>
-            <button className={mode === 'preview' ? 'active' : ''} onClick={() => setModeView('preview')}>预览</button>
+          {isMobile ? (
+            <>
+              <div className="seg">
+                <button className={mode === 'edit' ? 'active' : ''} onClick={() => setModeView('edit')}>编辑</button>
+                <button className={mode === 'preview' ? 'active' : ''} onClick={() => setModeView('preview')}>预览</button>
+              </div>
+              <div className="right-actions">
+                <button className="tool-toggle" onClick={() => setToolsOpen(!toolsOpen)}>
+                  <SetOutline />
+                </button>
+              </div>
+            </>
+          ) : (
+            <button className="tool-toggle" onClick={() => setToolsOpen(!toolsOpen)}>
+              {toolsOpen ? <UpOutline /> : <DownOutline />}
+            </button>
+          )}
+
+          <div className={`tools-group ${toolsOpen ? 'visible' : ''}`}>
+            {isMobile && (
+              <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+                <button onClick={() => { const next = !isDark; setIsDark(next); setMode(next ? 'dark' : 'light') }}>{isDark ? '切换亮色模式' : '切换暗色模式'}</button>
+              </div>
+            )}
+            <select value={tpl} onChange={e => setTpl(e.target.value as any)}>
+              <option value="modern">现代</option>
+              <option value="timeline">时间轴</option>
+            </select>
+            <button onClick={exportJSON}>JSON</button>
+            <label className="import">
+              导入
+              <input type="file" accept="application/json" onChange={e => e.target.files && importJSON(e.target.files[0])} />
+            </label>
+            <button onClick={exportPNG}>PNG</button>
+            <button onClick={exportPDF}>PDF</button>
           </div>
-          <select value={tpl} onChange={e => setTpl(e.target.value as any)}>
-            <option value="modern">现代</option>
-            <option value="timeline">时间轴</option>
-          </select>
-          <button onClick={exportJSON}>导出JSON</button>
-          <label className="import">
-            导入JSON
-            <input type="file" accept="application/json" onChange={e => e.target.files && importJSON(e.target.files[0])} />
-          </label>
-          <button onClick={exportPNG}>导出PNG</button>
-          <button onClick={exportPDF}>导出PDF</button>
-          <button onClick={() => { const next = !isDark; setIsDark(next); setMode(next ? 'dark' : 'light') }}>{isDark ? '☀︎' : '☾'}</button>
         </div>
       </div>
 
-      <div className="flip">
-        <div className={`flip-inner ${mode === 'preview' ? 'is-flipped' : ''}`}>
-        <aside className="editor flip-face flip-front">
-          <div className="editor-nav">
+      <div className="studio-content">
+        <div className={`flipper ${mode === 'preview' ? 'flipped' : ''}`}>
+          <aside className={`editor ${mode === 'edit' ? 'active' : ''}`}>
+            <div className="editor-nav">
             <button className={tab === 'overview' ? 'active' : ''} onClick={() => setTab('overview')}>总览</button>
             <button className={tab === 'skills' ? 'active' : ''} onClick={() => setTab('skills')}>技能</button>
             <button className={tab === 'experience' ? 'active' : ''} onClick={() => setTab('experience')}>经历</button>
@@ -203,12 +314,18 @@ export default function ResumeStudio() {
             <>
               <div className="section-head"><span>经历</span><button className="icon-btn" aria-label="新增经历" onClick={() => openModal('experience', null)}><AddOutline /></button></div>
               {data.experience.map((e, i) => (
-                <div className="card" key={i}>
+                <div className="entry-card" key={i}>
                   <div className="row"><div className="label">公司</div><div className="val">{e.company}</div></div>
                   <div className="row"><div className="label">职位</div><div className="val">{e.position}</div></div>
                   <div className="row"><div className="label">时间</div><div className="val">{e.period}</div></div>
-                  <div className="row"><div className="label">描述</div><div className="val">{e.description}</div></div>
-                  <div className="row-actions"><button className="icon-btn" aria-label="编辑经历" onClick={() => openModal('experience', i)}><EditSOutline /></button><button className="icon-btn danger" aria-label="删除经历" onClick={() => delExp(i)}><DeleteOutline /></button></div>
+                  <div className="row description" onClick={() => toggleExp(i)}>
+                    <div className="label">描述</div>
+                    <div className="val-wrap">
+                      <div className={`val-text ${expExpanded.has(i) ? '' : 'collapsed'}`}>{e.description}</div>
+                      <div className="toggler">{expExpanded.has(i) ? <UpOutline /> : <DownOutline />}</div>
+                    </div>
+                  </div>
+                  <div className="row-actions"><button className="icon-btn" aria-label="编辑经历" onClick={() => openModal('experience', i)}><EditSOutline /></button><button className="icon-btn" aria-label="删除经历" onClick={() => delExp(i)}><DeleteOutline /></button></div>
                 </div>
               ))}
             </>
@@ -217,18 +334,18 @@ export default function ResumeStudio() {
             <>
               <div className="section-head"><span>教育</span><button className="icon-btn" aria-label="新增教育" onClick={() => openModal('education', null)}><AddOutline /></button></div>
               {data.education.map((e, i) => (
-                <div className="card" key={i}>
+                <div className="entry-card" key={i}>
                   <div className="row"><div className="label">学校</div><div className="val">{e.institution}</div></div>
                   <div className="row"><div className="label">学位</div><div className="val">{e.degree}</div></div>
                   <div className="row"><div className="label">时间</div><div className="val">{e.period}</div></div>
-                  <div className="row-actions"><button className="icon-btn" aria-label="编辑教育" onClick={() => openModal('education', i)}><EditSOutline /></button><button className="icon-btn danger" aria-label="删除教育" onClick={() => delEdu(i)}><DeleteOutline /></button></div>
+                  <div className="row-actions"><button className="icon-btn" aria-label="编辑教育" onClick={() => openModal('education', i)}><EditSOutline /></button><button className="icon-btn" aria-label="删除教育" onClick={() => delEdu(i)}><DeleteOutline /></button></div>
                 </div>
               ))}
             </>
           )}
         </aside>
 
-        <main ref={previewRef} className={`preview ${tpl} flip-face flip-back`}>
+        <main ref={previewRef} className={`preview ${tpl} ${mode === 'preview' ? 'active' : ''}`}>
           <div className="sheet">
             <div className="row1">
               <div className="avatar">{getInitials(data.name)}</div>
